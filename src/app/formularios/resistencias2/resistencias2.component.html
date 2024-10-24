@@ -1,0 +1,59 @@
+<div class="p-4 bg-gray-100">
+  <h1 class="text-3xl font-bold mb-6 text-center">Calculadora de Resistencia</h1>
+  
+  <div class="md:flex md:space-x-4">
+    <form [formGroup]="resistenciaForm" (ngSubmit)="calcularResistencia()" class="bg-white p-4 rounded shadow mb-4 md:w-1/3">
+      <div class="space-y-4">
+        <div *ngFor="let banda of ['Primera', 'Segunda', 'Tercera']">
+          <label class="font-medium block">{{banda}} Banda:</label>
+          <select [formControlName]="banda + 'Banda'" class="w-full p-2 border rounded">
+            <option *ngFor="let color of colores" [value]="color">{{color}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label class="font-medium block">Tolerancia:</label>
+          <div class="flex space-x-4">
+            <label *ngFor="let tolerancia of ['Oro', 'Plata']" class="flex items-center">
+              <input type="radio" formControlName="Tolerancia" [value]="tolerancia" class="mr-2"> {{tolerancia}}
+            </label>
+          </div>
+        </div>
+        
+        <button type="submit" [disabled]="resistenciaForm.invalid" class="w-full bg-cyan-600 text-white py-2 px-4 rounded hover:bg-blue-700">Calcular</button>
+      </div>
+    </form>
+
+    <div class="bg-white p-4 rounded shadow md:w-2/3">
+      <h2 class="text-xl font-semibold mb-4">Resultados:</h2>
+      <div *ngIf="mostrarResultados" class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-gray-50">
+            <tr>
+              <th *ngFor="let encabezado of ['Color1', 'Color2', 'Color3', 'Tolerancia', 'Valor', 'Valor Mínimo', 'Valor Máximo']" class="p-2 text-left">{{encabezado}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let resultado of resultados" 
+                (click)="seleccionarRegistro(resultado)"
+                [class.bg-blue-100]="resultado === registroSeleccionado"
+                class="hover:bg-gray-50">
+              <td *ngFor="let propiedad of ['primeraBanda', 'segundaBanda', 'terceraBanda', 'tolerancia', 'valor', 'valorMin', 'valorMax']" 
+                  [ngClass]="getColorClass(resultado[propiedad])"
+                  class="p-2">
+                {{resultado[propiedad]}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flex justify-end mt-4 space-x-2">
+        <button (click)="mostrarResultadosImprimir()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Imprimir</button>
+        <button (click)="eliminarRegistroSeleccionado()" 
+        [disabled]="!registroSeleccionado" 
+        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50">
+        Eliminar seleccionado</button>
+      </div>
+    </div>
+  </div>
+</div>

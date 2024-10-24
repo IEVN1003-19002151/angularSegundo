@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   imports: [ReactiveFormsModule, CommonModule],  
   templateUrl: './zodiaco.component.html',
 })
-export class ZodiacoComponent implements OnInit {
+export default class ZodiacoComponent implements OnInit {
 
   zodiacoForm: FormGroup;
   signo: string = '';
