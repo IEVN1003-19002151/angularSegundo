@@ -67,7 +67,7 @@
               <td class="px-6 py-4">{{ empleado.edad }}</td>
               <td class="px-6 py-4">{{ empleado.horasT }}</td>
               <td class="px-6 py-4">{{ calcularPagoNormal(empleado.horasT) }}</td>
-              <td class="px-6 py-4">{{ calcularHorasExtras(empleado.horasT) }}</td>
+              <td class="px-6 py-4">{{ empleado.pagoHorasExtras }}</td>
               <td class="px-6 py-4">{{ calcularTotalPago(empleado.horasT) }}</td>
             </tr>
           </tbody>
@@ -94,4 +94,3 @@
     </div>
   </div>
 </div>
-

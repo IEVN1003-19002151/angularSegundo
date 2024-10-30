@@ -8,6 +8,9 @@ interface Empleado {
   email: string;
   edad: number;
   horasT: number;
+  horasXPaga: number;
+  pagoHorasExtras: number;  
+  totalPago: number;
 }
 
 @Component({
@@ -103,6 +106,12 @@ export default class EmpleadosComponent implements OnInit {
 
   imprimirTabla(): void {
     this.cargarEmpleados();
+    this.empleados = this.empleados.map(empleado => ({
+      ...empleado,
+      horasXPaga: this.calcularPagoNormal(empleado.horasT),
+      pagoHorasExtras: this.calcularPagoHorasExtras(empleado.horasT), 
+      subTotal: this.calcularTotalPago(empleado.horasT)
+    }));
     this.calcularTotalGeneral();
     this.actualizarTabla = false;
     this.mostrarTabla = true;
@@ -117,13 +126,12 @@ export default class EmpleadosComponent implements OnInit {
   }
 
   calcularPagoHorasExtras(horas: number): number {
-    return this.calcularHorasExtras(horas) * 140;
+    const horasExtras = Math.max(horas - 40, 0);
+    return horasExtras * 140; 
   }
 
   calcularTotalPago(horas: number): number {
-    const pagoNormal = this.calcularPagoNormal(horas);
-    const pagoExtras = this.calcularPagoHorasExtras(horas);
-    return pagoNormal + pagoExtras;
+    return this.calcularPagoNormal(horas) + this.calcularPagoHorasExtras(horas);
   }
 
   calcularTotalGeneral(): void {
